@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>You got a new application from <%= @unihub_application.user.email %>!</p>
+    <p>
+    Application details<br>
+    --------------------------
+    </p>
+    <p>Name: <%= @unihub_application.user.name %></p>
+    <p>Email: <%= @unihub_application.user.email %></p>
+    <p>Phone: <%= @unihub_application.user.phone_number %></p>
+    <p>
+
+    Please check the application's admin panel for more info.
+  </body>
+</html>
