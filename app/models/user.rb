@@ -7,6 +7,6 @@ class User < ApplicationRecord
   has_one :unihub_application, dependent: :destroy
 
   def name
-    first_name + ' ' + last_name
+    "#{first_name} #{last_name}"
   end
 end

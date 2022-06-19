@@ -25,4 +25,23 @@ class DashboardsController < ApplicationController
       redirect_to root_path
     end
   end
+
+  def new_contact
+    @contact = Contact.new(contact_params)
+
+    if @contact.save
+      UserMailer.contact_form_submitted_admin(@contact.id).deliver_now
+      flash[:notice] = 'Query submitted successfully. We will be in contact with you soon.'
+      redirect_to root_path
+    else
+      flash[:alert] = 'Could not submit your query.'
+      render :contact
+    end
+  end
+
+  private
+
+  def contact_params
+    params.permit(:name, :email, :message)
+  end
 end

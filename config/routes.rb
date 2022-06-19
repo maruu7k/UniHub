@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root 'dashboards#index'
   get 'about' => 'dashboards#about', as: 'about'
   get 'contact' => 'dashboards#contact', as: 'contact'
+  post 'new_contact' => 'dashboards#new_contact', as: 'new_contact'
   get 'my_application' => 'dashboards#my_application', as: 'my_application'
 
   resources :universities, only: [:show]
