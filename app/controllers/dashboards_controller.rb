@@ -6,23 +6,29 @@ class DashboardsController < ApplicationController
   end
 
   def my_application
-    @unihub_application = current_user.unihub_application
-    @active = if @unihub_application.status == 'submitted'
-                0
-              elsif @unihub_application.status == 'processing'
-                1
-              elsif @unihub_application.status == 'university_accepted'
-                2
-              elsif @unihub_application.status == 'visa_processing'
-                3
-              elsif @unihub_application.status == 'visa_approved'
-                4
-              else
-                -1
-              end
-    if @unihub_application.nil?
-      flash[:alert] = 'You do not have an ongoing application.'
+    @all_applications = []
+    unihub_applications = current_user.unihub_applications
+
+    if unihub_applications.nil?
+      flash[:alert] = 'You do not have any ongoing application.'
       redirect_to root_path
+    else
+      unihub_applications.map do |app|
+        active = if app.status == 'submitted'
+                   0
+                 elsif app.status == 'processing'
+                   1
+                 elsif app.status == 'university_accepted'
+                   2
+                 elsif app.status == 'visa_processing'
+                   3
+                 elsif app.status == 'visa_approved'
+                   4
+                 else
+                   -1
+                 end
+        @all_applications << [app, active]
+      end
     end
   end
 

@@ -1,63 +1,65 @@
 
 
-<div class="container rounded bg-white mt-5 mb-5">
-  <div class="row">
-    <div class="col-md-3 border-right">
-        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="text-black-50"><%= current_user.email %></span><span> </span></div>
-    </div>
-    <div class="col-md-6 border-right">
-      <div class="p-3 py-5">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h4 class="text-center">Application</h4>
-        </div>
-        <% if @unihub_application %>
-          <div class="col-md-12">
-            <label>Current Qualification</label>
-            <input type="text" class="form-control" value="<%= @unihub_application.current_qualification %>" disabled>
+<% @all_applications.each_with_index do |unihub_application, i| %>
+  <div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+      <div class="col-md-3 border-right">
+          <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="text-black-50"><%= current_user.email %></span><span> </span></div>
+      </div>
+      <div class="col-md-6 border-right">
+        <div class="p-3 py-5">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-center">Application # <%= i + 1 %></h4>
           </div>
-          <br />
-
-          <div class="col-md-12">
-            <label>Interested Qualification</label>
-            <input type="text" class="form-control" value="<%= @unihub_application.interested_qualification %>" disabled>
-          </div>
-
-          <br />
-          <div class="col-md-12">
-            <label>Course</label>
-            <input type="text" class="form-control" value="<%= @unihub_application.course %>" disabled>
-          </div>
-
-          <br />
-          <div class="col-md-12">
-            <label>Accomodation Required</label>
-            <input type="text" class="form-control" value="<%= @unihub_application.accomodation_required %>" disabled>
-          </div>
-
-          <br />
-          <div class="col-md-12">
-            <label>Country</label>
-            <input type="text" class="form-control" value="<%= @unihub_application.country.name %>" disabled>
-          </div><br />
-
-          <div class="col-md-12">
-            <label>Application Status</label>
-            <div class="progress-track">
-              <ul id="progressbar">
-                <li class="step0 <%= @active >= 0 ? 'active' : nil %>" id="step1">Submitted</li>
-                <li class="step0 <%= @active >= 1 ? 'active' : nil %> text-center" id="step2">Processing</li>
-                <li class="step0 <%= @active >= 2 ? 'active' : nil %> text-right" id="step3">University Accepted</li>
-                <li class="step0 <%= @active >= 3 ? 'active' : nil %> text-right" id="step4">Visa Processing</li>
-                <li class="step0 <%= @active >= 4 ? 'active' : nil %> text-right" id="step4">Visa Approved</li>
-              </ul>
+          <% if unihub_application %>
+            <div class="col-md-12">
+              <label>Current Qualification</label>
+              <input type="text" class="form-control" value="<%= unihub_application[0].current_qualification %>" disabled>
             </div>
-          </div>
-        <% else %>
-          <div class="col-md-12">
-            <h5>No Application Found</h5>
-          </div>
-        <% end %>
+            <br />
+
+            <div class="col-md-12">
+              <label>Interested Qualification</label>
+              <input type="text" class="form-control" value="<%= unihub_application[0].interested_qualification %>" disabled>
+            </div>
+
+            <br />
+            <div class="col-md-12">
+              <label>Course</label>
+              <input type="text" class="form-control" value="<%= unihub_application[0].course %>" disabled>
+            </div>
+
+            <br />
+            <div class="col-md-12">
+              <label>Accomodation Required</label>
+              <input type="text" class="form-control" value="<%= unihub_application[0].accomodation_required %>" disabled>
+            </div>
+
+            <br />
+            <div class="col-md-12">
+              <label>Country</label>
+              <input type="text" class="form-control" value="<%= unihub_application[0].country.name %>" disabled>
+            </div><br />
+
+            <div class="col-md-12">
+              <label>Application Status</label>
+              <div class="progress-track">
+                <ul id="progressbar">
+                  <li class="step0 <%= unihub_application[1] >= 0 ? 'active' : nil %>" id="step1">Submitted</li>
+                  <li class="step0 <%= unihub_application[1] >= 1 ? 'active' : nil %> text-center" id="step2">Processing</li>
+                  <li class="step0 <%= unihub_application[1] >= 2 ? 'active' : nil %> text-right" id="step3">University Accepted</li>
+                  <li class="step0 <%= unihub_application[1] >= 3 ? 'active' : nil %> text-right" id="step4">Visa Processing</li>
+                  <li class="step0 <%= unihub_application[1] >= 4 ? 'active' : nil %> text-right" id="step4">Visa Approved</li>
+                </ul>
+              </div>
+            </div>
+          <% else %>
+            <div class="col-md-12">
+              <h5>No Application Found</h5>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
-</div>
+<% end %>

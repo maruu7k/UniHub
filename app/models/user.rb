@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
 
-  has_one :unihub_application, dependent: :destroy
+  has_many :unihub_applications, dependent: :destroy
 
   def name
     "#{first_name} #{last_name}"
