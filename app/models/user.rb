@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :confirmable
 
   has_many :unihub_applications, dependent: :destroy
+  has_one_attached :image
 
   def name
     "#{first_name} #{last_name}"

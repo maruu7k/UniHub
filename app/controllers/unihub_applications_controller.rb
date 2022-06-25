@@ -27,7 +27,8 @@ class UnihubApplicationsController < ApplicationController
 
   def unihub_application_params
     params.require(:unihub_application).permit(:current_qualification, :interested_qualification, :country, :course,
-                                               :accomodation_required).merge(user_id: current_user.id, status: 0, country_id: users_country)
+                                               :accomodation_required, :cgpa_or_percentage, :current_institution, file: [])
+          .merge(user_id: current_user.id, status: 0, country_id: users_country)
   end
 
   def filter_params
