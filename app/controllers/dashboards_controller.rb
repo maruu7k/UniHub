@@ -9,7 +9,7 @@ class DashboardsController < ApplicationController
     @all_applications = []
     unihub_applications = current_user.unihub_applications
 
-    if unihub_applications.nil?
+    if unihub_applications.empty?
       flash[:alert] = 'You do not have any ongoing application.'
       redirect_to root_path
     else

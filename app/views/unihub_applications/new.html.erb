@@ -29,6 +29,20 @@
             </div>
           </div><br />
 
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <%= f.label :interested_country %>
+              <%= f.select(:country, options_for_select(Country.all.map { |c| [c.name]}), {}, {class: "form-control", id: "interested_country"}) %>
+            </div>
+          </div><br />
+
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <%= f.label :interested_university %>
+              <%= f.select(:university, [], {}, {class: "form-control", id: "interested_university"}) %>
+            </div>
+          </div><br />
+
           <div class="row mt-2">
             <div class="col-md-6">
               <%= f.label :interested_qualification %><br />
@@ -36,15 +50,8 @@
             </div>
 
             <div class="col-md-6">
-              <%= f.label :course %>
-              <%= f.text_field :course, required: true, autocomplete: "course", class: "form-control", placeholder: "Course" %>
-            </div>
-          </div><br />
-
-          <div class="row mt-3">
-            <div class="col-md-12">
-              <%= f.label :interested_country %>
-              <%= f.select(:country, options_for_select(Country.all.map { |c| [c.name]}), {}, {class: "form-control"}) %>
+              <%= f.label :interested_course %>
+              <%= f.select(:course, [], {}, {class: "form-control", id: "interested_course"}) %>
             </div>
           </div><br />
 
@@ -68,3 +75,72 @@
     </div>
   </div>
 </div>
+
+
+<script>
+  $(document).ready(function() { // Bind to the select
+    $.ajax({
+      url: "universities_for_country",
+      type: "GET",
+      data: {country_name: $('#interested_country').val()},
+      success: function(data) {
+        $("#interested_university").children().remove();
+        $.each(data, function (i, item) {
+            $('#interested_university').append($('<option>', { 
+                value: item.name,
+                text : item.name 
+            }));
+        });
+
+        $.ajax({
+          url: "courses_for_university",
+          type: "GET",
+          data: {university_name: data[0].name},
+          success: function(data) {
+            $("#interested_course").children().remove();
+            $.each(data, function (i, item) {
+                $('#interested_course').append($('<option>', { 
+                    value: item.name,
+                    text : item.name 
+                }));
+            });
+          }
+        })
+      }
+    })
+  });
+
+  $('#interested_country').change(function() { // Bind to the select
+    $.ajax({
+      url: "universities_for_country",
+      type: "GET",
+      data: {country_name: $(this).val()},
+      success: function(data) {
+        $("#interested_university").children().remove();
+        $.each(data, function (i, item) {
+            $('#interested_university').append($('<option>', { 
+                value: item.name,
+                text : item.name 
+            }));
+        });
+      }
+    })
+  });
+
+  $('#interested_university').change(function() { // Bind to the select
+    $.ajax({
+      url: "courses_for_university",
+      type: "GET",
+      data: {university_name: $(this).val()},
+      success: function(data) {
+        $("#interested_course").children().remove();
+        $.each(data, function (i, item) {
+            $('#interested_course').append($('<option>', { 
+                value: item.name,
+                text : item.name 
+            }));
+        });
+      }
+    })
+  });
+</script>

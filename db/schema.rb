@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_19_173421) do
+ActiveRecord::Schema.define(version: 2022_06_25_221020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,19 @@ ActiveRecord::Schema.define(version: 2022_06_19_173421) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "courses", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "courses_universities", id: false, force: :cascade do |t|
+    t.bigint "university_id", null: false
+    t.bigint "course_id", null: false
+    t.index ["course_id", "university_id"], name: "index_courses_universities_on_course_id_and_university_id"
+    t.index ["university_id", "course_id"], name: "index_courses_universities_on_university_id_and_course_id"
+  end
+
   create_table "images", force: :cascade do |t|
     t.string "imageable_type"
     t.bigint "imageable_id"
@@ -68,7 +81,6 @@ ActiveRecord::Schema.define(version: 2022_06_19_173421) do
   create_table "unihub_applications", force: :cascade do |t|
     t.integer "current_qualification", default: 0, null: false
     t.integer "interested_qualification", default: 0, null: false
-    t.string "course", default: "", null: false
     t.boolean "accomodation_required", default: false, null: false
     t.integer "status", default: 0, null: false
     t.bigint "country_id"
@@ -77,7 +89,11 @@ ActiveRecord::Schema.define(version: 2022_06_19_173421) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "cgpa_or_percentage", default: "", null: false
     t.string "current_institution", default: "", null: false
+    t.bigint "university_id", null: false
+    t.bigint "course_id", null: false
     t.index ["country_id"], name: "index_unihub_applications_on_country_id"
+    t.index ["course_id"], name: "index_unihub_applications_on_course_id"
+    t.index ["university_id"], name: "index_unihub_applications_on_university_id"
     t.index ["user_id"], name: "index_unihub_applications_on_user_id"
   end
 
@@ -120,6 +136,8 @@ ActiveRecord::Schema.define(version: 2022_06_19_173421) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "unihub_applications", "countries"
+  add_foreign_key "unihub_applications", "courses"
+  add_foreign_key "unihub_applications", "universities"
   add_foreign_key "unihub_applications", "users"
   add_foreign_key "universities", "countries"
 end

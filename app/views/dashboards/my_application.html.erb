@@ -31,6 +31,20 @@
               </div>
             </div><br />
 
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <label>Interested Country</label><br />
+                <input type="text" class="form-control" value="<%= unihub_application[0].country.name %>" disabled>
+              </div>
+            </div><br />
+
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <label>Interested University</label><br />
+                <input type="text" class="form-control" value="<%= unihub_application[0].university.name %>" disabled>
+              </div>
+            </div><br />
+
             <div class="row mt-2">
               <div class="col-md-6">
                 <label>Interested Qualification</label><br />
@@ -39,14 +53,7 @@
 
               <div class="col-md-6">
                 <label>Interested Course</label><br />
-                <input type="text" class="form-control" value="<%= unihub_application[0].course %>" disabled>
-              </div>
-            </div><br />
-
-            <div class="row mt-3">
-              <div class="col-md-12">
-                <label>Interested Country</label><br />
-                <input type="text" class="form-control" value="<%= unihub_application[0].country.name %>" disabled>
+                <input type="text" class="form-control" value="<%= unihub_application[0].course.name %>" disabled>
               </div>
             </div><br />
 

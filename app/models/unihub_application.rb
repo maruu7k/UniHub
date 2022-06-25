@@ -3,6 +3,8 @@ class UnihubApplication < ApplicationRecord
 
   belongs_to :user
   belongs_to :country
+  belongs_to :university
+  belongs_to :course
 
   enum status: {
     submitted: 0,

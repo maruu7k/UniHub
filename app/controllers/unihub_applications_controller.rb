@@ -13,7 +13,7 @@ class UnihubApplicationsController < ApplicationController
   end
 
   def create
-    unihub_application = UnihubApplication.create!(unihub_application_params.except(:country))
+    unihub_application = UnihubApplication.create!(unihub_application_params.except(:country, :university, :course))
     if unihub_application.save!
       UserMailer.new_application_submitted_admin(unihub_application.id).deliver_now
       flash[:notice] = 'Your application is submitted successfully.'
@@ -23,12 +23,27 @@ class UnihubApplicationsController < ApplicationController
     redirect_to root_path
   end
 
+  def universities_for_country
+    @universities = Country.find_by(name: params[:country_name]).universities
+    respond_to do |format|
+      format.json { render json: @universities }
+    end
+  end
+
+  def courses_for_university
+    @courses = University.find_by(name: params[:university_name]).courses
+    respond_to do |format|
+      format.json { render json: @courses }
+    end
+  end
+
   private
 
   def unihub_application_params
-    params.require(:unihub_application).permit(:current_qualification, :interested_qualification, :country, :course,
+    params.require(:unihub_application).permit(:current_qualification, :interested_qualification, :university, :country, :course,
                                                :accomodation_required, :cgpa_or_percentage, :current_institution, file: [])
-          .merge(user_id: current_user.id, status: 0, country_id: users_country)
+          .merge(user_id: current_user.id, status: 0, country_id: users_country,
+                 university_id: interested_university, course_id: interested_course)
   end
 
   def filter_params
@@ -38,5 +53,13 @@ class UnihubApplicationsController < ApplicationController
 
   def users_country
     @country_id = Country.find_by(name: params[:unihub_application][:country]).id
+  end
+
+  def interested_university
+    University.find_by(name: params[:unihub_application][:university]).id
+  end
+
+  def interested_course
+    Course.find_by(name: params[:unihub_application][:course]).id
   end
 end
