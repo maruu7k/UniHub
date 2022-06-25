@@ -45,6 +45,17 @@ class DashboardsController < ApplicationController
     end
   end
 
+  def search
+    redirect_to root_path and return if params[:search].blank?
+
+    @parameter = params[:search].downcase
+    @universities = University.all.where('lower(name) LIKE :search',
+                                         search: "%#{@parameter}%").order(created_at: :desc).page(params[:page]).per(9)
+    flash[:alert] = "No Universities found with name #{params[:search]}" if @universities.nil?
+
+    render :index
+  end
+
   private
 
   def contact_params

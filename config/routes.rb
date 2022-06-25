@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'contact' => 'dashboards#contact', as: 'contact'
   post 'new_contact' => 'dashboards#new_contact', as: 'new_contact'
   get 'my_application' => 'dashboards#my_application', as: 'my_application'
+  post 'search' => 'dashboards#search', as: 'search'
 
   resources :universities, only: [:show]
   resources :unihub_applications
