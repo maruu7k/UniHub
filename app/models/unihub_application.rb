@@ -4,6 +4,7 @@ class UnihubApplication < ApplicationRecord
   belongs_to :user
   belongs_to :country
   belongs_to :university
+  belongs_to :degree
   belongs_to :course
 
   enum status: {
@@ -18,12 +19,5 @@ class UnihubApplication < ApplicationRecord
     intermediate: 0,
     bachelors: 1,
     masters: 2
-  }
-
-  enum interested_qualification: {
-    foundation: 0,
-    diploma: 1,
-    undergraduate: 2,
-    graduate: 3
   }
 end

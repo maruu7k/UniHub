@@ -49,13 +49,6 @@
 
             <div class="row mt-3">
               <div class="col-md-12">
-                <%= f.label :interested_program %><br />
-                <%= f.text_field :interested_program, autofocus: true, autocomplete: "interested_program", class: "form-control", placeholder: "interested_program" %>
-              </div>
-            </div><br />
-
-            <div class="row mt-3">
-              <div class="col-md-12">
                 <%= f.label :password %><br />
                 <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
                 <% if @minimum_password_length %>

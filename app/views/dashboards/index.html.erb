@@ -21,6 +21,18 @@
           <div class="mt-5">
             <%= f.submit "Search", class: "btn btn-primary" %>
           </div>
+        </div>
+      <% end %>
+
+      <%= form_with url: search_path do |f| %>
+        <div class="row">
+          <div class="col-md-4 mt-3">
+            <%= f.label :search_by_country %>
+            <%= f.select(:country, options_for_select(['All Countries'] + Country.all.map { |c| [c.name]}), {}, {class: "form-control", id: "interested_country"}) %>
+          </div>
+          <div class="mt-5">
+            <%= f.submit "Search", class: "btn btn-primary" %>
+          </div>
         </div><br />
       <% end %>
 
@@ -36,6 +48,7 @@
                 <a href="<%= university_path(uni.id) %>" class="btn btn-primary">View</a>
               </div>
               <ul class="list-group list-group-flush">
+                <li class="list-group-item"><i class="fa fa-flag" aria-hidden="true"></i> Country <%= uni.country.name %></li>
                 <li class="list-group-item"><i class="fa fa-certificate" aria-hidden="true"></i> Ranking <%= uni.world_ranking %></li>
                 <li class="list-group-item"><i class="fa fa-money" aria-hidden="true"></i> Tuition Fee <%= uni.tuition_fee %></li>
                 <li class="list-group-item"><i class="fa fa-graduation-cap" aria-hidden="true"></i> IELTS Score <%= uni.ielts_score == 'not_required' ? 'Not Required' : uni.ielts_score %></li>

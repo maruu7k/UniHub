@@ -46,11 +46,18 @@ class DashboardsController < ApplicationController
   end
 
   def search
-    redirect_to root_path and return if params[:search].blank?
+    redirect_to root_path and return if params[:search].blank? && params[:country].blank?
 
-    @parameter = params[:search].downcase
-    @universities = University.all.where('lower(name) LIKE :search',
-                                         search: "%#{@parameter}%").order(created_at: :desc).page(params[:page]).per(9)
+    @universities = if params[:search]
+                      @parameter = params[:search].downcase
+                      University.all.where('lower(name) LIKE :search',
+                                           search: "%#{@parameter}%").order(created_at: :desc)
+                    elsif params[:country] == 'All Countries'
+                      University.all
+                    else
+                      Country.find_by(name: params[:country]).universities.order(created_at: :desc)
+                    end
+    @universities = @universities.page(params[:page]).per(9)
     flash[:alert] = "No Universities found with name #{params[:search]}" if @universities.nil?
 
     render :index

@@ -6,6 +6,8 @@
         <li class="nav-item active"><a href="<%= root_path %>" class="nav-link font-italic"> Home </a></li>
         <li class="nav-item active"><a href="<%= about_path %>" class="nav-link font-italic"> About </a></li>
         <li class="nav-item active"><a href="<%= contact_path %>" class="nav-link font-italic"> Contact </a></li>
+        <li class="nav-item active"><a href="<%= what_to_pack_path %>" class="nav-link font-italic"> What To Pack </a></li>
+        <li class="nav-item active"><a href="<%= parents_guide_path %>" class="nav-link font-italic"> Parents Guide </a></li>
         <% if current_user && !current_user.unihub_applications.nil? %>
           <li class="nav-item active"><a href="<%= my_application_path %>" class="nav-link font-italic"> My Applications</a></li>
         <% end %>

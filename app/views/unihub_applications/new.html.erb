@@ -46,7 +46,7 @@
           <div class="row mt-2">
             <div class="col-md-6">
               <%= f.label :interested_qualification %><br />
-              <%= f.select(:interested_qualification, options_for_select(INTERESTED_QUALIFICATION.map { |ic| [ic]}), {}, {class: "form-control"}) %>
+              <%= f.select(:degree, [], {}, {class: "form-control", id: "interested_qualification"}) %>
             </div>
 
             <div class="col-md-6">
@@ -93,17 +93,32 @@
         });
 
         $.ajax({
-          url: "courses_for_university",
+          url: "degrees_for_university",
           type: "GET",
           data: {university_name: data[0].name},
           success: function(data) {
-            $("#interested_course").children().remove();
+            $("#interested_qualification").children().remove();
             $.each(data, function (i, item) {
-                $('#interested_course').append($('<option>', { 
+                $('#interested_qualification').append($('<option>', { 
                     value: item.name,
                     text : item.name 
                 }));
             });
+
+            $.ajax({
+              url: "courses_for_degree",
+              type: "GET",
+              data: {degree_name: data[0].name, university_name: $("#interested_university").val()},
+              success: function(data) {
+                $("#interested_course").children().remove();
+                $.each(data, function (i, item) {
+                    $('#interested_course').append($('<option>', { 
+                        value: item.name,
+                        text : item.name 
+                    }));
+                });
+              }
+            })
           }
         })
       }
@@ -123,15 +138,78 @@
                 text : item.name 
             }));
         });
+
+        $.ajax({
+          url: "degrees_for_university",
+          type: "GET",
+          data: {university_name: data[0].name},
+          success: function(res) {
+            $("#interested_qualification").children().remove();
+            $.each(res, function (i, item) {
+                $('#interested_qualification').append($('<option>', { 
+                    value: item.name,
+                    text : item.name 
+                }));
+            });
+
+            $.ajax({
+              url: "courses_for_degree",
+              type: "GET",
+              data: {degree_name: res[0].name, university_name: $("#interested_university").val()},
+              success: function(res) {
+                $("#interested_course").children().remove();
+                $.each(res, function (i, item) {
+                    $('#interested_course').append($('<option>', { 
+                        value: item.name,
+                        text : item.name 
+                    }));
+                });
+              }
+            })
+          }
+        })
       }
     })
   });
 
   $('#interested_university').change(function() { // Bind to the select
     $.ajax({
-      url: "courses_for_university",
+      url: "degrees_for_university",
       type: "GET",
       data: {university_name: $(this).val()},
+      success: function(data) {
+        $("#interested_qualification").children().remove();
+        $.each(data, function (i, item) {
+            $('#interested_qualification').append($('<option>', { 
+                value: item.name,
+                text : item.name 
+            }));
+        });
+
+        $.ajax({
+          url: "courses_for_degree",
+          type: "GET",
+          data: {degree_name: data[0].name, university_name: $("#interested_university").val()},
+          success: function(data) {
+            $("#interested_course").children().remove();
+            $.each(data, function (i, item) {
+                $('#interested_course').append($('<option>', { 
+                    value: item.name,
+                    text : item.name 
+                }));
+            });
+          }
+        })
+      }
+    })
+  });
+
+
+  $('#interested_qualification').change(function() { // Bind to the select
+    $.ajax({
+      url: "courses_for_degree",
+      type: "GET",
+      data: {degree_name: $(this).val(), university_name: $("#interested_university").val()},
       success: function(data) {
         $("#interested_course").children().remove();
         $.each(data, function (i, item) {
