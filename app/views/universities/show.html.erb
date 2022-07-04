@@ -13,10 +13,10 @@
       <img src="<%= rails_blob_url(@university.images.first.image.blob) unless @university.images.first.nil? %>" alt="<%= @university.name %>'s Image" width="1100" height="500">
     </div>
     <div class="carousel-item">
-      <img src="<%= rails_blob_url(@university.images.first.image.blob) unless @university.images.first.nil? %>" alt="<%= @university.name %>'s Image" width="1100" height="500">
+      <img src="<%= @university.images.second.nil? ? rails_blob_url(@university.images.first.image.blob) : rails_blob_url(@university.images.second.image.blob) %>" alt="<%= @university.name %>'s Image" width="1100" height="500">
     </div>
     <div class="carousel-item">
-      <img src="<%= rails_blob_url(@university.images.first.image.blob) unless @university.images.first.nil? %>" alt="<%= @university.name %>'s Image" width="1100" height="500">
+      <img src="<%= @university.images.third.nil? ? rails_blob_url(@university.images.first.image.blob) : rails_blob_url(@university.images.third.image.blob) %>" alt="<%= @university.name %>'s Image" width="1100" height="500">
     </div>
   </div>
   
@@ -78,7 +78,7 @@
       <div class="col-xs-12 col-sm-4 col-md-4">
         <div class="card" style="width: 18rem;">
           <div class="card-body">
-            <h5 class="card-title"><%= c.name %></h5>
+            <a href="<%= course_path(c.id) %>"><h5 class="card-title"><%= c.name %></h5></a>
             <p class="card-text course-card-description lead text-muted"><%= c.description %></p>
           </div>
           
